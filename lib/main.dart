@@ -32,13 +32,15 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TextEditingController _controller;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
@@ -53,6 +55,26 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(209, 238, 106, 1),
         shadowColor: Color.fromARGB(0, 244, 67, 54),
+        actions: <Widget>[
+          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
+        ],
+        iconTheme: IconThemeData(color: Colors.black),
+        bottom: TabBar(
+          labelColor: Colors.grey,
+          unselectedLabelColor: Colors.black,
+          controller: _tabController,
+          tabs: const <Widget>[
+            Tab(
+              icon: Icon(Icons.cloud_outlined),
+            ),
+            Tab(
+              icon: Icon(Icons.beach_access_sharp),
+            ),
+            Tab(
+              icon: Icon(Icons.brightness_5_sharp),
+            ),
+          ],
+        ),
       ),
       drawer: Drawer(
         child: ListView(
@@ -99,21 +121,12 @@ class MyCustomForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextField(
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              hintText: 'Enter a search term',
-            ),
-          ),
-        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
           child: TextFormField(
             decoration: const InputDecoration(
               border: UnderlineInputBorder(),
-              labelText: 'Enter your username',
+              labelText: 'Enter your name',
             ),
           ),
         ),
