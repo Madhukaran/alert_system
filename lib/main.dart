@@ -125,13 +125,15 @@ class MyCustomForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-          child: TextFormField(
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              labelText: 'Enter your name',
-            ),
+        Expanded(
+          flex: 0,
+          child: Column(
+            children: const <Widget>[
+              Text(
+                "Build your community around Health,Fitness, and Wellness.",
+                textScaleFactor: 3,
+              )
+            ],
           ),
         ),
       ],
