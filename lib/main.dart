@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,15 +12,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: Color.fromRGBO(209, 238, 106, 1)));
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(209, 238, 106, 1)));
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        backgroundColor: Color.fromRGBO(209, 238, 106, 1),
+        backgroundColor: const Color.fromRGBO(209, 238, 106, 1),
       ),
       debugShowCheckedModeBanner: false,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        '/home': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/': (context) => const WelcomeScreen(),
+      },
     );
   }
 }
@@ -53,12 +57,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(209, 238, 106, 1),
-        shadowColor: Color.fromARGB(0, 244, 67, 54),
+        backgroundColor: const Color.fromRGBO(209, 238, 106, 1),
+        shadowColor: const Color.fromARGB(0, 244, 67, 54),
         actions: <Widget>[
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
         ],
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
         bottom: TabBar(
           labelColor: Colors.grey,
           unselectedLabelColor: Colors.black,
@@ -107,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      backgroundColor: Color.fromRGBO(209, 238, 106, 1),
+      backgroundColor: const Color.fromRGBO(209, 238, 106, 1),
       body: const MyCustomForm(),
     );
   }
