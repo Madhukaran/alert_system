@@ -1,9 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen();
+class AddDevice extends StatelessWidget {
+  AddDevice() {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Color.fromRGBO(200, 201, 196, 1)));
+
+    FlutterBlue flutterBlue = FlutterBlue.instance;
+    // Start scanning
+    flutterBlue.startScan(timeout: Duration(seconds: 4));
+
+    // Listen to scan results
+    var subscription = flutterBlue.scanResults.listen((results) {
+      // do something with scan results
+      for (ScanResult r in results) {
+        print('${r.device.name} found! rssi: ${r.rssi}');
+      }
+    });
+
+    // Stop scanning
+    flutterBlue.stopScan();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +39,8 @@ class WelcomeScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(209, 238, 106, 1),
         shadowColor: const Color.fromARGB(0, 244, 67, 54),
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.widgets)),
-        actions: <Widget>[
-          IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
-        ],
+        leading: IconButton(
+            onPressed: () {}, icon: const Icon(Icons.arrow_circle_left)),
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Container(
@@ -38,7 +54,7 @@ class WelcomeScreen extends StatelessWidget {
               child: Column(
                 children: const <Widget>[
                   Text(
-                    "Build your community around Health,Fitness, and Wellness.",
+                    "Searching for Devices!",
                     textScaleFactor: 3,
                   )
                 ],
@@ -46,10 +62,8 @@ class WelcomeScreen extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Column(
-                children: <Widget>[
-                  Lottie.asset('assets/images/alert_system.json')
-                ],
+              child: ListView(
+                children: const <Widget>[],
               ),
             ),
             Expanded(
@@ -65,31 +79,9 @@ class WelcomeScreen extends StatelessWidget {
                           size: 60,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, '/addDevice');
+                          Navigator.pushNamed(context, '/home');
                         },
                         label: const Text("Get Started")),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(25),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          const TextSpan(
-                              text: "Already have an Account?",
-                              style: TextStyle(color: Colors.black)),
-                          TextSpan(
-                            text: " Sign In.",
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontStyle: FontStyle.italic),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => {Navigator.pushNamed(context, '/home')},
-                          ),
-                        ],
-                      ),
-                    ),
                   ),
                 ],
               ),
