@@ -38,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   lottie: ^1.4.3
   flutter_blue: ^0.8.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +66,7 @@ flutter:
   assets:
     - assets/images/alert_system.gif
     - assets/images/alert_system.json
+    - assets/images/gadgets.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
