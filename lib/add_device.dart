@@ -11,14 +11,6 @@ class AddDevice extends StatelessWidget {
   AddDevice() {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: Color.fromRGBO(200, 201, 196, 1)));
-
-    // try {
-
-    //   // Stop scanning
-    //   // flutterBlue.stopScan();
-    // } catch (e) {
-    //   print(e);
-    // }
   }
 
   Future get initializationDone => __checkMyPermissions;
@@ -33,7 +25,7 @@ class AddDevice extends StatelessWidget {
       _displaySnack(context, "Please Turn On the Location");
     }
     if (bluetoothStatus && locationStatus) {
-      _scanAvailableDevices(context);
+      // _scanAvailableDevices(context);
     }
   }
 
@@ -83,6 +75,40 @@ class AddDevice extends StatelessWidget {
   }
 
   @override
+  Widget device(BuildContext context) {
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              // tileColor: Color.fromRGBO(209, 238, 106, 1),
+              leading: Icon(Icons.album),
+              title: Text('The Enchanted Nightingale'),
+              subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                TextButton(
+                  child: const Text('BUY TICKETS'),
+                  onPressed: () {/* ... */},
+                ),
+                const SizedBox(width: 8),
+                TextButton(
+                  child: const Text('LISTEN'),
+                  onPressed: () {/* ... */},
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ButtonStyle style = ElevatedButton.styleFrom(
         padding: const EdgeInsets.fromLTRB(6, 0, 0, 0),
@@ -117,17 +143,17 @@ class AddDevice extends StatelessWidget {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.all(20),
-        margin: const EdgeInsets.only(top: 5, bottom: 5),
+        padding: const EdgeInsets.all(10),
+        // margin: const EdgeInsets.only(top: 5, bottom: 5),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: ListView(
-                children: <Widget>[Lottie.asset('assets/images/gadgets.json')],
-              ),
-            ),
+            // Expanded(
+            //   flex: 1,
+            //   child: ListView(
+            //     children: <Widget>[Lottie.asset('assets/images/gadgets.json')],
+            //   ),
+            // ),
             Expanded(
               flex: 1,
               child: ListView(
@@ -163,35 +189,33 @@ class AddDevice extends StatelessWidget {
                     stream: FlutterBlue.instance.scanResults,
                     initialData: [],
                     builder: (c, snapshot) => Column(
-                      children: snapshot.data!
-                          .map((r) => Text(r.device.name,
-                              style: const TextStyle(fontSize: 20)))
-                          .toList(),
+                      children:
+                          snapshot.data!.map((r) => device(context)).toList(),
                     ),
                   ),
                 ],
               ),
             ),
-            Expanded(
-              flex: 0,
-              child: Column(
-                children: <Widget>[
-                  Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ElevatedButton.icon(
-                        style: style,
-                        icon: const Icon(
-                          Icons.arrow_circle_right,
-                          size: 60,
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/home');
-                        },
-                        label: const Text("next")),
-                  ),
-                ],
-              ),
-            ),
+            // Expanded(
+            //   flex: 0,
+            //   child: Column(
+            //     children: <Widget>[
+            //       Directionality(
+            //         textDirection: TextDirection.rtl,
+            //         child: ElevatedButton.icon(
+            //             style: style,
+            //             icon: const Icon(
+            //               Icons.arrow_circle_right,
+            //               size: 60,
+            //             ),
+            //             onPressed: () {
+            //               Navigator.pushNamed(context, '/home');
+            //             },
+            //             label: const Text("next")),
+            //       ),
+            //     ],
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -199,158 +223,3 @@ class AddDevice extends StatelessWidget {
     );
   }
 }
-
-// class DeviceScreen extends StatelessWidget {
-//   const DeviceScreen({Key? key, required this.device}) : super(key: key);
-
-//   final BluetoothDevice device;
-
-//   List<int> _getRandomBytes() {
-//     final math = Random();
-//     return [
-//       math.nextInt(255),
-//       math.nextInt(255),
-//       math.nextInt(255),
-//       math.nextInt(255)
-//     ];
-//   }
-
-//   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-//     return services
-//         .map(
-//           (s) => ServiceTile(
-//             service: s,
-//             characteristicTiles: s.characteristics
-//                 .map(
-//                   (c) => CharacteristicTile(
-//                     characteristic: c,
-//                     onReadPressed: () => c.read(),
-//                     onWritePressed: () async {
-//                       await c.write(_getRandomBytes(), withoutResponse: true);
-//                       await c.read();
-//                     },
-//                     onNotificationPressed: () async {
-//                       await c.setNotifyValue(!c.isNotifying);
-//                       await c.read();
-//                     },
-//                     descriptorTiles: c.descriptors
-//                         .map(
-//                           (d) => DescriptorTile(
-//                             descriptor: d,
-//                             onReadPressed: () => d.read(),
-//                             onWritePressed: () => d.write(_getRandomBytes()),
-//                           ),
-//                         )
-//                         .toList(),
-//                   ),
-//                 )
-//                 .toList(),
-//           ),
-//         )
-//         .toList();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(device.name),
-//         actions: <Widget>[
-//           StreamBuilder<BluetoothDeviceState>(
-//             stream: device.state,
-//             initialData: BluetoothDeviceState.connecting,
-//             builder: (c, snapshot) {
-//               VoidCallback? onPressed;
-//               String text;
-//               switch (snapshot.data) {
-//                 case BluetoothDeviceState.connected:
-//                   onPressed = () => device.disconnect();
-//                   text = 'DISCONNECT';
-//                   break;
-//                 case BluetoothDeviceState.disconnected:
-//                   onPressed = () => device.connect();
-//                   text = 'CONNECT';
-//                   break;
-//                 default:
-//                   onPressed = null;
-//                   text = snapshot.data.toString().substring(21).toUpperCase();
-//                   break;
-//               }
-//               return ElevatedButton(
-//                   onPressed: onPressed,
-//                   child: Text(
-//                     text,
-//                     style: Theme.of(context)
-//                         .primaryTextTheme
-//                         .button
-//                         ?.copyWith(color: Colors.white),
-//                   ));
-//             },
-//           )
-//         ],
-//       ),
-//       body: SingleChildScrollView(
-//         child: Column(
-//           children: <Widget>[
-//             StreamBuilder<BluetoothDeviceState>(
-//               stream: device.state,
-//               initialData: BluetoothDeviceState.connecting,
-//               builder: (c, snapshot) => ListTile(
-//                 leading: (snapshot.data == BluetoothDeviceState.connected)
-//                     ? Icon(Icons.bluetooth_connected)
-//                     : Icon(Icons.bluetooth_disabled),
-//                 title: Text(
-//                     'Device is ${snapshot.data.toString().split('.')[1]}.'),
-//                 subtitle: Text('${device.id}'),
-//                 trailing: StreamBuilder<bool>(
-//                   stream: device.isDiscoveringServices,
-//                   initialData: false,
-//                   builder: (c, snapshot) => IndexedStack(
-//                     index: snapshot.data! ? 1 : 0,
-//                     children: <Widget>[
-//                       IconButton(
-//                         icon: Icon(Icons.refresh),
-//                         onPressed: () => device.discoverServices(),
-//                       ),
-//                       IconButton(
-//                         icon: SizedBox(
-//                           child: CircularProgressIndicator(
-//                             valueColor: AlwaysStoppedAnimation(Colors.grey),
-//                           ),
-//                           width: 18.0,
-//                           height: 18.0,
-//                         ),
-//                         onPressed: null,
-//                       )
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             StreamBuilder<int>(
-//               stream: device.mtu,
-//               initialData: 0,
-//               builder: (c, snapshot) => ListTile(
-//                 title: Text('MTU Size'),
-//                 subtitle: Text('${snapshot.data} bytes'),
-//                 trailing: IconButton(
-//                   icon: Icon(Icons.edit),
-//                   onPressed: () => device.requestMtu(223),
-//                 ),
-//               ),
-//             ),
-//             StreamBuilder<List<BluetoothService>>(
-//               stream: device.services,
-//               initialData: [],
-//               builder: (c, snapshot) {
-//                 return Column(
-//                   children: _buildServiceTiles(snapshot.data!),
-//                 );
-//               },
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
