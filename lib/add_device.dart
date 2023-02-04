@@ -196,26 +196,26 @@ class AddDevice extends StatelessWidget {
                 ],
               ),
             ),
-            // Expanded(
-            //   flex: 0,
-            //   child: Column(
-            //     children: <Widget>[
-            //       Directionality(
-            //         textDirection: TextDirection.rtl,
-            //         child: ElevatedButton.icon(
-            //             style: style,
-            //             icon: const Icon(
-            //               Icons.arrow_circle_right,
-            //               size: 60,
-            //             ),
-            //             onPressed: () {
-            //               Navigator.pushNamed(context, '/home');
-            //             },
-            //             label: const Text("next")),
-            //       ),
-            //     ],
-            //   ),
-            // ),
+            Expanded(
+              flex: 0,
+              child: Column(
+                children: <Widget>[
+                  Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton.icon(
+                        style: style,
+                        icon: const Icon(
+                          Icons.arrow_circle_right,
+                          size: 60,
+                        ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/home');
+                        },
+                        label: const Text("next")),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
